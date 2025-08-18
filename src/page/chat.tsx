@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-// import '../styles/chat.css';
 import { useParams } from "react-router-dom";
 import EmojiPicker from "emoji-picker-react";
 
@@ -122,7 +121,6 @@ function Chat() {
         </div>
 
         <div className=" mt-auto m-3 flex items-center gap-2">
-        {/* {showEmojiPicker && <EmojiPicker onEmojiClick={onEmojiClick} />} */}
         {showEmojiPicker && (
         <div className="absolute mb-2 left-5 shadow-lg bottom-16">
           <EmojiPicker onEmojiClick={onEmojiClick} />
