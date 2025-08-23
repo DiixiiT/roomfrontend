@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import EmojiPicker from "emoji-picker-react";
+import CreateRoom from "../component/CreateRoom";
 
 function Chat() {
   const { param } = useParams();
@@ -86,15 +87,17 @@ function Chat() {
     }
   };
 
-  const onEmojiClick = (emojiObject:any) =>{
-    setMessageInput(prevInput => prevInput + emojiObject.emoji);
+  const onEmojiClick = (emojiObject: any) => {
+    setMessageInput((prevInput) => prevInput + emojiObject.emoji);
     setShowEmojiPicker(false);
-  }
+  };
 
   return (
-    <div className="flex h-screen bg-blue-50">
-      <div className="first basis-1/4 hidden md:block"></div>
-      <div className="second basis-full md:basis-1/2 bg-white flex flex-col">
+    <div className="flex h-screen">
+      <div className="first basis-1/4 hidden md:block">
+        <CreateRoom />
+      </div>
+      <div className="second basis-full md:basis-1/2 bg-white flex flex-col border-2">
         <div className="flex-grow overflow-auto no-scrollbar pl-3 pr-3 space-y-3">
           <div className="sticky top-0 bg-white mt-0 pt-0">
             <div className="p-3 border-b-2 border-gray-300">
@@ -121,13 +124,12 @@ function Chat() {
         </div>
 
         <div className=" mt-auto m-3 flex items-center gap-2">
-        {showEmojiPicker && (
-        <div className="absolute mb-2 left-5 shadow-lg bottom-16">
-          <EmojiPicker onEmojiClick={onEmojiClick} />
-        </div>
-      )}
-          <button
-          onClick={() => setShowEmojiPicker(val => !val)}>
+          {showEmojiPicker && (
+            <div className="absolute mb-2 left-5 shadow-lg bottom-16">
+              <EmojiPicker onEmojiClick={onEmojiClick} />
+            </div>
+          )}
+          <button onClick={() => setShowEmojiPicker((val) => !val)}>
             <svg
               className="w-8 h-8 text-blue-400"
               aria-hidden="true"
@@ -180,7 +182,6 @@ function Chat() {
         </div>
       </div>
       <div className="last basis-1/4 hidden md:block bg-blue-50"></div>
-      
     </div>
   );
 }
