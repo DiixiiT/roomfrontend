@@ -7,7 +7,7 @@ type PopupFormProps = {
 };
 
 const PopupForm: React.FC<PopupFormProps> = ({ isOpen, onClose }) => {
-  const [form, setForm] = useState({ field1: "", field2: "" });
+  const [form, setForm] = useState({ title: "", desc: "" });
   const [urlOpen, setUrlOpen] = useState(false);
   const [url, setURL] = useState("");
 
@@ -33,8 +33,14 @@ const PopupForm: React.FC<PopupFormProps> = ({ isOpen, onClose }) => {
   };
 
   const fetchParamFromBackend = async () => {
+    console.log("Form.....", form);
     const response = await fetch("http://127.0.0.1:8000/room/", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({ title: form.title, desc: form.desc }),
     });
     const data = await response.json();
     console.log("This should be before:", data); // This will log the fetched data
@@ -61,8 +67,8 @@ const PopupForm: React.FC<PopupFormProps> = ({ isOpen, onClose }) => {
             </label>
             <input
               type="text"
-              name="field1"
-              value={form.field1}
+              name="title"
+              value={form.title}
               onChange={handleChange}
               className="w-full border rounded px-2 py-1"
               required
@@ -72,8 +78,8 @@ const PopupForm: React.FC<PopupFormProps> = ({ isOpen, onClose }) => {
             <label className="block mb-1">Discription</label>
             <input
               type="text"
-              name="field2"
-              value={form.field2}
+              name="desc"
+              value={form.desc}
               onChange={handleChange}
               className="w-full border rounded px-2 py-1"
             />

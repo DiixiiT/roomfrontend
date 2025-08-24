@@ -11,6 +11,7 @@ function Chat() {
   const [roomName] = useState("general"); // Example room name to fetch previous messages
   const [name, setName] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [title, setTitle] = useState("");
 
   const ROOM_ID = param;
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -22,8 +23,7 @@ function Chat() {
       .then((data) => {
         setMessages(data.data.messages); // Set the fetched messages to the state
         setName(data.name);
-        console.log("NAME : ", data);
-        console.log("PARAM : ", param);
+        setTitle(data.data.title);
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);
@@ -101,7 +101,7 @@ function Chat() {
         <div className="flex-grow overflow-auto no-scrollbar pl-3 pr-3 space-y-3">
           <div className="sticky top-0 bg-white mt-0 pt-0">
             <div className="p-3 border-b-2 border-gray-300">
-              <h1>WebSocket Chat</h1>
+              <h1>{title}</h1>
 
               <h2>Previous Messages:</h2>
             </div>
