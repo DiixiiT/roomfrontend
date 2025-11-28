@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import EmojiPicker from "emoji-picker-react";
 import CreateRoom from "../component/CreateRoom";
+import CountdownTimer from "../component/CountdownTimer";
 
 function Chat() {
   const { param } = useParams();
@@ -12,6 +13,7 @@ function Chat() {
   const [name, setName] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [title, setTitle] = useState("");
+  const [created_at, setCreatedAt] = useState("");
 
   const ROOM_ID = param;
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -24,6 +26,7 @@ function Chat() {
         setMessages(data.data.messages); // Set the fetched messages to the state
         setName(data.name);
         setTitle(data.data.title);
+        setCreatedAt(data.data.created_at);
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);
@@ -91,19 +94,21 @@ function Chat() {
     setMessageInput((prevInput) => prevInput + emojiObject.emoji);
     setShowEmojiPicker(false);
   };
-
+  const createdDateFromBE = created_at;
+   const [expired, setExpired] = useState<boolean>(false);
   return (
     <div className="flex h-screen">
       <div className="first basis-1/4 hidden md:block">
         <CreateRoom />
+        <CountdownTimer createdDate={createdDateFromBE}
+        durationMinutes={18}
+        onExpire={() => setExpired(true)}/>
       </div>
       <div className="second basis-full md:basis-1/2 bg-white flex flex-col border-2">
         <div className="flex-grow overflow-auto no-scrollbar pl-3 pr-3 space-y-3">
           <div className="sticky top-0 bg-white mt-0 pt-0">
             <div className="p-3 border-b-2 border-gray-300">
-              <h1>{title}</h1>
-
-              <h2>Previous Messages:</h2>
+              <h1>Subject : {title}</h1>
             </div>
           </div>
           <ul>
@@ -155,6 +160,7 @@ function Chat() {
             className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Message"
             required
+            disabled={expired}
           />
           <div>
             <button
