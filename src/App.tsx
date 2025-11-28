@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Chat from "./page/chat";
 import LandingPage from "./page/landingPage";
+import Home from "./page/home";
 
 const MyComponent = () => {
   // Use `useNavigate` to navigate programmatically in React Router v6+
@@ -40,13 +41,16 @@ const MyComponent = () => {
 
 const App = () => {
   return (
+    <>
     <Router>
       <Routes>
-        <Route path="/" element={<MyComponent />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/room/:param" element={<Chat />} />
         <Route path="/landing" element={<LandingPage />} />
       </Routes>
     </Router>
+    </>
   );
 };
 
